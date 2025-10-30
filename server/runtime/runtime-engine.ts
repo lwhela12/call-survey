@@ -437,25 +437,18 @@ export class RuntimeEngine {
   private getExpectedBlocks(session: RuntimeSession): string[] {
     const { state } = session;
     const mainPath = [
-      "b1",
-      "b2",
-      "b3",
-      "b4",
-      "b4a",
-      "b5",
-      "b6",
-      "b7",
-      "b8",
-      "b9",
-      "b10",
-      "b11",
-      "b12",
-      "b13",
-      "b14",
-      "b15",
-      "b16",
-      "b17",
-      "b18",
+      "b1",   // Which hat do you wear?
+      "b3",   // How did the call land?
+      "b5",   // How clear is the value?
+      "b6",   // Where does it click?
+      "b7",   // What would block adoption?
+      "b8",   // Our direction feels...
+      "b9",   // Which values?
+      "b10",  // Rank lead sources
+      "b11",  // Name actionable paths
+      "b12",  // Booth/panel message
+      "b17",  // Prioritize next 90 days
+      "b18",  // Anything else?
     ];
 
     const expectedBlocks = [...mainPath];
