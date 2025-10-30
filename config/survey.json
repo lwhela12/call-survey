@@ -480,6 +480,7 @@
     },
     "b19": {
       "id": "b19",
+      "next": "end",
       "type": "final-message",
       "content": "Thank you for your candor and insight! We'll share back a concise readout of the results. Your ideas are already helping us move faster together."
     },
