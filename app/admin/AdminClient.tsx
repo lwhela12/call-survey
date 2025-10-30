@@ -70,7 +70,7 @@ export function AdminClient({ responses, surveyConfig, theme }: AdminClientProps
           <div style={{ marginBottom: '2.5rem' }}>
             <KpiStatCard
               title="Total Responses"
-              value={responses.length}
+              value={responses.length.toString()}
               subtitle="Completed surveys"
               accent="emerald"
             />
