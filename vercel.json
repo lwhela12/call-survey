@@ -3,22 +3,5 @@
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
   "installCommand": "npm install && npx prisma generate",
-  "framework": "nextjs",
-  "env": {
-    "DATABASE_URL": {
-      "type": "string",
-      "description": "PostgreSQL connection string from Railway",
-      "required": true
-    },
-    "CLIENT_ID": {
-      "type": "string",
-      "description": "Client ID from Studio export",
-      "required": true
-    },
-    "DEPLOYMENT_ID": {
-      "type": "string",
-      "description": "Deployment ID from Studio export",
-      "required": true
-    }
-  }
+  "framework": "nextjs"
 }
