@@ -91,31 +91,36 @@
           "id": "1",
           "emoji": "😞",
           "label": "Not valuable",
-          "value": "1"
+          "value": "1",
+          "showText": true
         },
         {
           "id": "2",
           "emoji": "😞",
           "label": "2",
-          "value": "2"
+          "value": "2",
+          "showText": true
         },
         {
           "id": "3",
           "emoji": "😐",
           "label": "3",
-          "value": "3"
+          "value": "3",
+          "showText": true
         },
         {
           "id": "4",
           "emoji": "😐",
           "label": "4",
-          "value": "4"
+          "value": "4",
+          "showText": true
         },
         {
           "id": "5",
           "emoji": "🤩",
           "label": "Very valuable",
-          "value": "5"
+          "value": "5",
+          "showText": true
         }
       ],
       "variable": "rating_3"
@@ -140,31 +145,36 @@
           "id": "1",
           "emoji": "😞",
           "label": "Very fuzzy",
-          "value": "1"
+          "value": "1",
+          "showText": true
         },
         {
           "id": "2",
           "emoji": "😞",
           "label": "2",
-          "value": "2"
+          "value": "2",
+          "showText": true
         },
         {
           "id": "3",
           "emoji": "😐",
           "label": "3",
-          "value": "3"
+          "value": "3",
+          "showText": true
         },
         {
           "id": "4",
           "emoji": "🙂",
           "label": "4",
-          "value": "4"
+          "value": "4",
+          "showText": true
         },
         {
           "id": "5",
           "emoji": "🤩",
           "label": "Crystal clear",
-          "value": "5"
+          "value": "5",
+          "showText": true
         }
       ],
       "variable": "rating_5"
@@ -279,31 +289,36 @@
           "id": "1",
           "emoji": "😞",
           "label": "Off-course",
-          "value": "1"
+          "value": "1",
+          "showText": true
         },
         {
           "id": "2",
           "emoji": "😐",
           "label": "2",
-          "value": "2"
+          "value": "2",
+          "showText": true
         },
         {
           "id": "3",
           "emoji": "🙂",
           "label": "On-course",
-          "value": "3"
+          "value": "3",
+          "showText": true
         },
         {
           "id": "4",
           "emoji": "🤩",
           "label": "4",
-          "value": "4"
+          "value": "4",
+          "showText": true
         },
         {
           "id": "5",
           "emoji": "🚀",
           "label": "Ahead of the game",
-          "value": "5"
+          "value": "5",
+          "showText": true
         }
       ],
       "variable": "rating_8"
