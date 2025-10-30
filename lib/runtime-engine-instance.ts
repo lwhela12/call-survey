@@ -42,7 +42,10 @@ const persistence: RuntimePersistence = {
       where: { sessionId },
       include: {
         answers: {
-          orderBy: { createdAt: 'asc' },
+          orderBy: [
+            { createdAt: 'asc' },
+            { id: 'asc' },
+          ],
         },
       },
     });
