@@ -1,15 +1,24 @@
 import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { DndContext, PointerSensor, KeyboardSensor, useSensor, useSensors, closestCenter } from '@dnd-kit/core';
+import { DndContext, PointerSensor, TouchSensor, KeyboardSensor, useSensor, useSensors, closestCenter } from '@dnd-kit/core';
 import { SortableContext, useSortable, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 const Ranking = ({ question, onAnswer, disabled }) => {
     const initialItems = useMemo(() => question.options ?? [], [question.options]);
     const [items, setItems] = useState(initialItems);
     const maxSelections = question.maxSelections || Math.min(3, items.length || 3);
-    const sensors = useSensors(useSensor(PointerSensor, {
-        activationConstraint: { distance: 8 }
-    }), useSensor(KeyboardSensor));
+    const sensors = useSensors(
+        useSensor(PointerSensor, {
+            activationConstraint: { distance: 10 }
+        }),
+        useSensor(TouchSensor, {
+            activationConstraint: {
+                delay: 250,
+                tolerance: 5
+            }
+        }),
+        useSensor(KeyboardSensor)
+    );
     const handleDragEnd = (event) => {
         const { active, over } = event;
         if (!over || active.id === over.id)
@@ -22,13 +31,19 @@ const Ranking = ({ question, onAnswer, disabled }) => {
             return arrayMove(prev, oldIndex, newIndex);
         });
     };
+    const handleDragStart = (event) => {
+        // Haptic feedback for mobile devices
+        if ('vibrate' in navigator) {
+            navigator.vibrate(10);
+        }
+    };
     const handleSubmit = () => {
         const selected = items.slice(0, maxSelections).map(option => option.value);
         onAnswer(selected);
     };
     return (React.createElement(Container, null,
         React.createElement(Instructions, null, "Drag and drop to rank your choices"),
-        React.createElement(DndContext, { sensors: sensors, collisionDetection: closestCenter, onDragEnd: handleDragEnd },
+        React.createElement(DndContext, { sensors: sensors, collisionDetection: closestCenter, onDragStart: handleDragStart, onDragEnd: handleDragEnd },
             React.createElement(SortableContext, { items: items.map(item => item.id), strategy: verticalListSortingStrategy },
                 React.createElement(Options, null, items.map((option, index) => (React.createElement(SortableOption, { key: option.id, id: option.id, label: option.label, index: index, isTopChoice: index < maxSelections })))))),
         React.createElement(SubmitSection, null,
@@ -78,6 +93,9 @@ const Option = styled.div `
   box-shadow: ${({ $isDragging }) => $isDragging ? '0 16px 24px rgba(0,0,0,0.12)' : 'none'};
   cursor: grab;
   user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: none;
   transition: box-shadow 0.2s ease, background 0.2s ease, transform 0.2s ease;
 `;
 const Handle = styled.span `

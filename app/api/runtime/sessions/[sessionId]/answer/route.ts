@@ -14,7 +14,7 @@ export async function POST(
     const result = await runtimeEngine.submitAnswer(params.sessionId, questionId, answer);
 
     // If survey is complete, trigger session completion
-    if (result.nextQuestion?.type === 'final-message') {
+    if (result.nextQuestion?.type === 'final-message' || result.nextQuestion?.type === 'end') {
       await runtimeEngine.completeSession(params.sessionId);
     }
 

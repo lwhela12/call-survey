@@ -36,6 +36,36 @@ const persistence: RuntimePersistence = {
       data: { completedAt: new Date() },
     });
   },
+
+  async getResponseBySessionId(sessionId) {
+    const response = await prisma.surveyResponse.findUnique({
+      where: { sessionId },
+      include: {
+        answers: {
+          orderBy: { createdAt: 'asc' },
+        },
+      },
+    });
+
+    if (!response) {
+      return null;
+    }
+
+    return {
+      id: response.id,
+      sessionId: response.sessionId,
+      deploymentId: response.deploymentId,
+      draftId: response.draftId,
+      respondentName: response.respondentName,
+      metadata: response.metadata as Record<string, unknown> | null,
+      completedAt: response.completedAt,
+      answers: response.answers.map((a) => ({
+        blockId: a.blockId,
+        answer: a.answer,
+        createdAt: a.createdAt,
+      })),
+    };
+  },
 };
 
 /**

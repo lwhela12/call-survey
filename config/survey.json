@@ -82,7 +82,7 @@
             }
           }
         ],
-        "else": "b4"
+        "else": "b20"
       },
       "type": "scale",
       "content": "Overall, how did the call land for you?",
@@ -136,7 +136,7 @@
             }
           }
         ],
-        "else": "b6"
+        "else": "b5-thanks"
       },
       "type": "scale",
       "content": "How clear is the tool's end-to-end value (discovery → deploy → analyze → narrative/strategy)?",
@@ -178,6 +178,15 @@
         }
       ],
       "variable": "rating_5"
+    },
+    "b5-thanks": {
+      "id": "b5-thanks",
+      "next": "b6",
+      "type": "dynamic-message",
+      "content": "Thanks for the feedback!",
+      "variable": "var_b5_thanks",
+      "autoAdvance": true,
+      "autoAdvanceDelay": 2500
     },
     "b6": {
       "id": "b6",
@@ -325,7 +334,17 @@
     },
     "b9": {
       "id": "b9",
-      "next": "b10",
+      "next": {
+        "if": [
+          {
+            "goto": "b9a",
+            "when": {
+              "in": "other"
+            }
+          }
+        ],
+        "else": "b10"
+      },
       "type": "multi-choice",
       "content": "Which values should Nesolagus clearly enshrine? (Pick up to 3)",
       "options": [
@@ -361,12 +380,20 @@
         },
         {
           "id": "other",
-          "label": "Other",
+          "label": "Something else ..",
           "value": "other"
         }
       ],
       "variable": "multi_9",
       "maxSelections": 3
+    },
+    "b9a": {
+      "id": "b9a",
+      "next": "b10",
+      "type": "text-input",
+      "content": "What else do you think we should consider?",
+      "variable": "text_9a",
+      "placeholder": "Type your thoughts here..."
     },
     "b10": {
       "id": "b10",
@@ -497,7 +524,11 @@
       "id": "b19",
       "next": "end",
       "type": "final-message",
-      "content": "Thank you for your candor and insight! We'll share back a concise readout of the results. Your ideas are already helping us move faster together."
+      "content": "",
+      "heroAsset": {
+        "url": "/assets/Nesolagus_23.png",
+        "fileName": "Nesolagus_23.png"
+      }
     },
     "b1a": {
       "id": "b1a",
@@ -535,7 +566,7 @@
       "id": "b20",
       "next": "b5",
       "type": "ranking",
-      "content": "What action(s) in order of priority are you most moved to take after the call? Please rank your top choices.",
+      "content": "What actions are you most moved to take after the call? Please drag your selections in order of priority.",
       "options": [
         {
           "id": "intro",

@@ -18,6 +18,20 @@ export interface RuntimePersistence {
     answer: unknown;
   }): Promise<void>;
   completeResponse(responseId: string): Promise<void>;
+  getResponseBySessionId(sessionId: string): Promise<{
+    id: string;
+    sessionId: string;
+    deploymentId?: string | null;
+    draftId?: string | null;
+    respondentName?: string | null;
+    metadata?: Record<string, unknown> | null;
+    completedAt?: Date | null;
+    answers: Array<{
+      blockId: string;
+      answer: unknown;
+      createdAt: Date;
+    }>;
+  } | null>;
 }
 
 export interface SurveyConfig {
@@ -73,11 +87,20 @@ export interface AnswerResponse {
   progress: number;
 }
 
+export interface ConversationHistoryItem {
+  blockId: string;
+  questionContent: string;
+  answerContent: string | null;
+  questionType: string;
+  isBotOnly: boolean;
+}
+
 export interface SessionStateResponse {
   currentQuestion: any | null;
   progress: number;
   isComplete: boolean;
   responseId: string;
+  conversationHistory?: ConversationHistoryItem[];
 }
 
 export class RuntimeEngine {
@@ -210,8 +233,20 @@ export class RuntimeEngine {
     this.sessions.delete(sessionId);
   }
 
-  getSessionState(sessionId: string): SessionStateResponse {
-    const session = this.sessions.get(sessionId);
+  async getSessionState(sessionId: string, config?: SurveyConfig): Promise<SessionStateResponse> {
+    let session: RuntimeSession | undefined = this.sessions.get(sessionId);
+
+    // If not in memory, try to reconstruct from database
+    if (!session && config) {
+      const reconstructed = await this.reconstructSessionFromDatabase(sessionId, config);
+
+      if (reconstructed) {
+        session = reconstructed;
+        // Cache the reconstructed session in memory
+        this.sessions.set(sessionId, session);
+      }
+    }
+
     if (!session) {
       throw new Error("Session not found");
     }
@@ -223,11 +258,15 @@ export class RuntimeEngine {
 
     const progress = this.calculateProgress(session);
 
+    // Build conversation history for returning users
+    const conversationHistory = this.buildConversationHistory(session);
+
     return {
       currentQuestion: formatted,
       progress,
       isComplete: !currentBlock,
       responseId: session.state.responseId,
+      conversationHistory,
     };
   }
 
@@ -550,5 +589,173 @@ export class RuntimeEngine {
     }
 
     return formatted;
+  }
+
+  private formatAnswerForDisplay(answer: any, formattedQuestion: any): string {
+    if (answer === null || answer === undefined) {
+      return "";
+    }
+
+    const questionType = formattedQuestion.type;
+
+    // Handle different question types
+    switch (questionType) {
+      case "single-choice":
+        // Find the option label
+        if (formattedQuestion.options && Array.isArray(formattedQuestion.options)) {
+          const option = formattedQuestion.options.find(
+            (opt: any) => opt.id === answer || opt.value === answer
+          );
+          if (option) {
+            return option.label || option.value || String(answer);
+          }
+        }
+        return String(answer);
+
+      case "multi-choice":
+        // Return comma-separated labels
+        if (Array.isArray(answer) && formattedQuestion.options) {
+          const labels = answer.map((val: any) => {
+            const option = formattedQuestion.options.find(
+              (opt: any) => opt.id === val || opt.value === val
+            );
+            return option ? (option.label || option.value || String(val)) : String(val);
+          });
+          return labels.join(", ");
+        }
+        return String(answer);
+
+      case "scale":
+        // Show emoji + label if available
+        if (formattedQuestion.options && Array.isArray(formattedQuestion.options)) {
+          const option = formattedQuestion.options.find(
+            (opt: any) => opt.id === answer || opt.value === answer
+          );
+          if (option) {
+            const emoji = option.emoji || "";
+            const label = option.label || "";
+            return emoji && label ? `${emoji} ${label}` : emoji || label || String(answer);
+          }
+        }
+        return String(answer);
+
+      case "ranking":
+        // Show ordered list
+        if (Array.isArray(answer) && formattedQuestion.options) {
+          const rankedItems = answer.map((val: any, index: number) => {
+            const option = formattedQuestion.options.find(
+              (opt: any) => opt.id === val || opt.value === val
+            );
+            const label = option ? (option.label || option.value || String(val)) : String(val);
+            return `${index + 1}. ${label}`;
+          });
+          return rankedItems.join(", ");
+        }
+        return String(answer);
+
+      case "text-input":
+      case "long-text":
+        return String(answer);
+
+      default:
+        // For unknown types, convert to string
+        if (typeof answer === "object") {
+          return JSON.stringify(answer);
+        }
+        return String(answer);
+    }
+  }
+
+  private buildConversationHistory(session: RuntimeSession): ConversationHistoryItem[] {
+    const history: ConversationHistoryItem[] = [];
+    const { state, config } = session;
+
+    // Iterate through completed blocks in order
+    for (const blockId of state.completedBlocks) {
+      const block = config.blocks[blockId];
+      if (!block) continue;
+
+      // Skip routing blocks (invisible/technical)
+      if (block.type === "routing") continue;
+
+      // Format the question with current variable state
+      const formattedQuestion = this.formatQuestionForClient(block, state.variables);
+
+      // Check if this is a bot-only message (auto-advance)
+      if (block.type === "dynamic-message") {
+        history.push({
+          blockId,
+          questionContent: formattedQuestion.content || "",
+          answerContent: null,
+          questionType: block.type,
+          isBotOnly: true,
+        });
+        continue;
+      }
+
+      // For interactive blocks, include Q&A pair
+      const answer = state.answers[blockId];
+      const answerDisplay = this.formatAnswerForDisplay(answer, formattedQuestion);
+
+      history.push({
+        blockId,
+        questionContent: formattedQuestion.content || "",
+        answerContent: answerDisplay,
+        questionType: block.type,
+        isBotOnly: false,
+      });
+    }
+
+    return history;
+  }
+
+  private async reconstructSessionFromDatabase(
+    sessionId: string,
+    config: SurveyConfig
+  ): Promise<RuntimeSession | null> {
+    const dbResponse = await this.persistence.getResponseBySessionId(sessionId);
+
+    if (!dbResponse || dbResponse.completedAt) {
+      return null; // Session doesn't exist or is already complete
+    }
+
+    // Start with initial state
+    const state: SurveyState = {
+      surveyId: (config.survey?.id as string) || dbResponse.draftId || dbResponse.deploymentId || "runtime",
+      responseId: dbResponse.id,
+      currentBlockId: this.getFirstBlockId(config),
+      variables: {
+        user_name: dbResponse.respondentName || "",
+      },
+      completedBlocks: [],
+      answers: {},
+      metadata: dbResponse.metadata || undefined,
+    };
+
+    // Create temporary session for replaying answers
+    const tempSession: RuntimeSession = {
+      sessionId,
+      type: "runtime",
+      config,
+      state,
+      context: {
+        deploymentId: dbResponse.deploymentId || undefined,
+        draftId: dbResponse.draftId || undefined,
+      },
+    };
+
+    // Replay each answer to rebuild state
+    for (const answer of dbResponse.answers) {
+      // Update state with this answer
+      this.updateState(tempSession, answer.blockId, answer.answer);
+
+      // Navigate to next block
+      const nextBlock = this.getNextQuestion(tempSession, answer.blockId, answer.answer);
+      if (nextBlock) {
+        tempSession.state.currentBlockId = nextBlock.id || answer.blockId;
+      }
+    }
+
+    return tempSession;
   }
 }
