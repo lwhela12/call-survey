@@ -1,0 +1,822 @@
+{
+  "bundle": {
+    "name": "nesolagus-nesolagus-advisory-board-pulse-20251029T233757",
+    "generatedAt": "2025-10-29T23:37:57.568Z",
+    "generator": "nesolagus-exporter@0.1.0",
+    "environment": "production"
+  },
+  "client": {
+    "id": "cmhcfe5lt001c9k7v5zkv829e",
+    "name": "Nesolagus",
+    "slug": "nesolagus"
+  },
+  "draft": {
+    "id": "cmhcfuzm3001m9k7vu0fg6bm9",
+    "name": "Nesolagus Advisory Board Pulse",
+    "updatedAt": "2025-10-29T21:48:35.677Z"
+  },
+  "assets": [
+    {
+      "id": "cmhcfm85d001g9k7vq0j0m155",
+      "bundlePath": "public/assets/001-burrow-builder-2.png",
+      "originalFileName": "burrow builder 2.png",
+      "size": 176945,
+      "contentType": "image/png",
+      "metadata": {
+        "kind": "image"
+      },
+      "checksum": "db10af407d7d5ea325e5ea9fb0444da3ac54187eb56a9bb9112d31a419b473f9",
+      "sourceUrl": "/uploads/clients/nesolagus/burrow-builder-2-6e71e9f8.png"
+    },
+    {
+      "id": "cmhcfmtzt001i9k7v4d5s06la",
+      "bundlePath": "public/assets/002-nesolagus-horizontal.png",
+      "originalFileName": "nesolagus-horizontal.png",
+      "size": 79270,
+      "contentType": "image/png",
+      "metadata": {
+        "kind": "image"
+      },
+      "checksum": "ba8869d6d38f6d3798c215f5d6b024a6deb2e2ecfaa12793bc30d86b0cf13b19",
+      "sourceUrl": "/uploads/clients/nesolagus/nesolagus-horizontal-b1511b09.png"
+    },
+    {
+      "id": "cmhcfn54f001k9k7vkgt0cwx9",
+      "bundlePath": "public/assets/003-nesolagus-bug.png",
+      "originalFileName": "nesolagus-bug.png",
+      "size": 1081064,
+      "contentType": "image/png",
+      "metadata": {
+        "kind": "image"
+      },
+      "checksum": "47c04522f3a7260265ed8d791e05c93b9fc4e4e57ccd8b74ae4efb7c17a104c6",
+      "sourceUrl": "/uploads/clients/nesolagus/nesolagus-bug-3f412a47.png"
+    },
+    {
+      "id": "cmhcg4j9o001o9k7voslo1eqw",
+      "bundlePath": "public/assets/004-nesolagus-horizontal.png",
+      "originalFileName": "nesolagus-horizontal.png",
+      "size": 79270,
+      "contentType": "image/png",
+      "metadata": {
+        "kind": "image"
+      },
+      "checksum": "ba8869d6d38f6d3798c215f5d6b024a6deb2e2ecfaa12793bc30d86b0cf13b19",
+      "sourceUrl": "/uploads/clients/nesolagus/nesolagus-horizontal-5fe20ab2.png"
+    },
+    {
+      "id": "cmhcg4qcj001q9k7vii2xc7lr",
+      "bundlePath": "public/assets/005-nesolagus-bug.png",
+      "originalFileName": "nesolagus-bug.png",
+      "size": 1081064,
+      "contentType": "image/png",
+      "metadata": {
+        "kind": "image"
+      },
+      "checksum": "47c04522f3a7260265ed8d791e05c93b9fc4e4e57ccd8b74ae4efb7c17a104c6",
+      "sourceUrl": "/uploads/clients/nesolagus/nesolagus-bug-b8c758e1.png"
+    }
+  ],
+  "files": [
+    {
+      "path": "config/survey.json",
+      "contentType": "application/json"
+    },
+    {
+      "path": "config/theme.json",
+      "contentType": "application/json"
+    },
+    {
+      "path": "README.md",
+      "contentType": "text/plain"
+    },
+    {
+      "path": ".env.example",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "package.json",
+      "contentType": "application/json"
+    },
+    {
+      "path": "metadata/manifest.json",
+      "contentType": "application/json"
+    },
+    {
+      "path": "vendor/core/package.json",
+      "contentType": "application/json"
+    },
+    {
+      "path": "vendor/core/dist/branching.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/core/dist/branching.d.ts.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/core/dist/branching.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/core/dist/index.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/core/dist/index.d.ts.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/core/dist/index.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/core/dist/types.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/core/dist/types.d.ts.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/core/dist/types.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/package.json",
+      "contentType": "application/json"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/ChatInterface.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/ChatInterface.d.ts.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/ChatInterface.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/ChatInterface.js.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/ProgressBar.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/ProgressBar.d.ts.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/ProgressBar.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/ProgressBar.js.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionRenderer.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionRenderer.d.ts.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionRenderer.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionRenderer.js.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/ContactForm.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/ContactForm.d.ts.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/ContactForm.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/ContactForm.js.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/Demographics.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/Demographics.d.ts.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/Demographics.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/Demographics.js.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/FinalMessage.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/FinalMessage.d.ts.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/FinalMessage.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/FinalMessage.js.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/MixedMedia.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/MixedMedia.d.ts.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/MixedMedia.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/MixedMedia.js.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/MultiChoice.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/MultiChoice.d.ts.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/MultiChoice.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/MultiChoice.js.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/QuickReply.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/QuickReply.d.ts.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/QuickReply.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/QuickReply.js.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/Ranking.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/Ranking.d.ts.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/Ranking.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/Ranking.js.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/Scale.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/Scale.d.ts.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/Scale.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/Scale.js.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/SemanticDifferential.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/SemanticDifferential.d.ts.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/SemanticDifferential.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/SemanticDifferential.js.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/SingleChoice.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/SingleChoice.d.ts.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/SingleChoice.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/SingleChoice.js.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/TextInput.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/TextInput.d.ts.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/TextInput.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/TextInput.js.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/VideoAskQuestion.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/VideoAskQuestion.d.ts.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/VideoAskQuestion.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/VideoAskQuestion.js.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/VideoAutoplay.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/VideoAutoplay.d.ts.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/VideoAutoplay.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/VideoAutoplay.js.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/VideoRecorder.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/VideoRecorder.d.ts.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/VideoRecorder.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/VideoRecorder.js.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/YesNo.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/YesNo.d.ts.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/YesNo.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/QuestionTypes/YesNo.js.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/TypingIndicator.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/TypingIndicator.d.ts.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/TypingIndicator.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/TypingIndicator.js.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/WelcomeScreen.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/WelcomeScreen.d.ts.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/WelcomeScreen.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/WelcomeScreen.js.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/preview/ChatPreview.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/preview/ChatPreview.d.ts.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/preview/ChatPreview.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/components/preview/ChatPreview.js.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/index.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/index.d.ts.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/index.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/index.js.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/types/styled.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/types/styled.d.ts.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/types/styled.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/types/styled.js.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/types/survey.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/types/survey.d.ts.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/dist/types/survey.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/survey-components/dist/types/survey.js.map",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "vendor/survey-components/README.md",
+      "contentType": "text/markdown"
+    },
+    {
+      "path": "vendor/config/package.json",
+      "contentType": "application/json"
+    },
+    {
+      "path": "vendor/config/dist/index.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/config/dist/index.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/config/dist/schema.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/config/README.md",
+      "contentType": "text/markdown"
+    },
+    {
+      "path": "vendor/dashboard-engine/package.json",
+      "contentType": "application/json"
+    },
+    {
+      "path": "vendor/dashboard-engine/dist/DashboardEngine.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-engine/dist/DashboardEngine.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-engine/dist/data-binding.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-engine/dist/data-binding.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-engine/dist/index.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-engine/dist/index.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-engine/dist/theme-resolver.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-engine/dist/theme-resolver.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-engine/dist/types.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-engine/dist/types.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-widgets/package.json",
+      "contentType": "application/json"
+    },
+    {
+      "path": "vendor/dashboard-widgets/dist/components/AreaChart.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-widgets/dist/components/AreaChart.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-widgets/dist/components/BarChart.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-widgets/dist/components/BarChart.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-widgets/dist/components/DashboardRenderer.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-widgets/dist/components/DashboardRenderer.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-widgets/dist/components/FunnelChart.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-widgets/dist/components/FunnelChart.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-widgets/dist/components/InsightHighlight.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-widgets/dist/components/InsightHighlight.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-widgets/dist/components/KpiStatCard.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-widgets/dist/components/KpiStatCard.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-widgets/dist/components/LineChart.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-widgets/dist/components/LineChart.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-widgets/dist/components/RadialChart.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-widgets/dist/components/RadialChart.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-widgets/dist/components/SegmentDonut.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-widgets/dist/components/SegmentDonut.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-widgets/dist/index.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-widgets/dist/index.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-widgets/dist/lib/data-transform.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-widgets/dist/lib/data-transform.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-widgets/dist/lib/widget-data-binder.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-widgets/dist/lib/widget-data-binder.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-widgets/dist/theme.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-widgets/dist/theme.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-widgets/dist/types.d.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "vendor/dashboard-widgets/dist/types.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": ".env.example",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "README.md",
+      "contentType": "text/markdown"
+    },
+    {
+      "path": "USAGE.md",
+      "contentType": "text/markdown"
+    },
+    {
+      "path": "app/api/runtime/sessions/[sessionId]/answer/route.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "app/api/runtime/sessions/[sessionId]/end/route.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "app/api/runtime/sessions/[sessionId]/route.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "app/api/runtime/start/route.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "app/dashboard/DashboardClient.tsx",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "app/dashboard/page.tsx",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "app/globals.css",
+      "contentType": "text/css"
+    },
+    {
+      "path": "app/layout.tsx",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "app/page.tsx",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "app/survey/page.tsx",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "lib/config.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "lib/db.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "lib/registry.tsx",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "lib/runtime-api.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "lib/runtime-engine-instance.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "next.config.js",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "package.json",
+      "contentType": "application/json"
+    },
+    {
+      "path": "prisma/schema.prisma",
+      "contentType": "text/plain"
+    },
+    {
+      "path": "railway.json",
+      "contentType": "application/json"
+    },
+    {
+      "path": "scripts/seed.mjs",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "server/runtime/runtime-engine.ts",
+      "contentType": "application/javascript"
+    },
+    {
+      "path": "tsconfig.json",
+      "contentType": "application/json"
+    },
+    {
+      "path": "vercel.json",
+      "contentType": "application/json"
+    }
+  ]
+}

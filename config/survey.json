@@ -1,0 +1,627 @@
+{
+  "blocks": {
+    "b0": {
+      "id": "b0",
+      "next": "b1",
+      "type": "dynamic-message",
+      "content": "Thanks again for lending your time and brains on the call. This quick pulse helps us turn yesterday's conversation into motion—it should take about 6-8 minutes. Your responses are completely anonymous.",
+      "autoAdvance": true,
+      "autoAdvanceDelay": 3500
+    },
+    "b1": {
+      "id": "b1",
+      "next": {
+        "if": [
+          {
+            "goto": "b1a",
+            "when": {
+              "equals": "education"
+            }
+          },
+          {
+            "goto": "b1b",
+            "when": {
+              "equals": "upm"
+            }
+          },
+          {
+            "goto": "b1c",
+            "when": {
+              "equals": "nonprofit"
+            }
+          },
+          {
+            "goto": "b1d",
+            "when": {
+              "equals": "education-np"
+            }
+          }
+        ],
+        "else": "b1d"
+      },
+      "type": "single-choice",
+      "content": "Which hat do you wear?",
+      "options": [
+        {
+          "id": "education-np",
+          "label": "Education/Non-profit",
+          "value": "education-np"
+        },
+        {
+          "id": "upm",
+          "label": "Urban Place Management",
+          "value": "upm"
+        },
+        {
+          "id": "nonprofit",
+          "label": "Non-profit",
+          "value": "nonprofit"
+        },
+        {
+          "id": "education",
+          "label": "Education",
+          "value": "education"
+        }
+      ],
+      "variable": "choice_1"
+    },
+    "b3": {
+      "id": "b3",
+      "next": {
+        "if": [
+          {
+            "goto": "b3a",
+            "when": {
+              "lt": 3
+            }
+          },
+          {
+            "goto": "b3b",
+            "when": {
+              "gt": 4
+            }
+          }
+        ],
+        "else": "b4"
+      },
+      "type": "scale",
+      "content": "Overall, how did the call land for you?",
+      "options": [
+        {
+          "id": "1",
+          "emoji": "😞",
+          "label": "Not valuable",
+          "value": "1"
+        },
+        {
+          "id": "2",
+          "emoji": "😞",
+          "label": "2",
+          "value": "2"
+        },
+        {
+          "id": "3",
+          "emoji": "😐",
+          "label": "3",
+          "value": "3"
+        },
+        {
+          "id": "4",
+          "emoji": "😐",
+          "label": "4",
+          "value": "4"
+        },
+        {
+          "id": "5",
+          "emoji": "🤩",
+          "label": "Very valuable",
+          "value": "5"
+        }
+      ],
+      "variable": "rating_3"
+    },
+    "b5": {
+      "id": "b5",
+      "next": {
+        "if": [
+          {
+            "goto": "b5a",
+            "when": {
+              "lt": "3"
+            }
+          }
+        ],
+        "else": "b6"
+      },
+      "type": "scale",
+      "content": "How clear is the tool's end-to-end value (discovery → deploy → analyze → narrative/strategy)?",
+      "options": [
+        {
+          "id": "1",
+          "emoji": "😞",
+          "label": "Very fuzzy",
+          "value": "1"
+        },
+        {
+          "id": "2",
+          "emoji": "😞",
+          "label": "2",
+          "value": "2"
+        },
+        {
+          "id": "3",
+          "emoji": "😐",
+          "label": "3",
+          "value": "3"
+        },
+        {
+          "id": "4",
+          "emoji": "🙂",
+          "label": "4",
+          "value": "4"
+        },
+        {
+          "id": "5",
+          "emoji": "🤩",
+          "label": "Crystal clear",
+          "value": "5"
+        }
+      ],
+      "variable": "rating_5"
+    },
+    "b6": {
+      "id": "b6",
+      "next": "b7",
+      "type": "multi-choice",
+      "content": "Where does the tool 'click' most in your world? (Select all that apply)",
+      "options": [
+        {
+          "id": "student-voice",
+          "label": "Student voice work",
+          "value": "student-voice"
+        },
+        {
+          "id": "counselor",
+          "label": "Counselor resources",
+          "value": "counselor"
+        },
+        {
+          "id": "parent-engagement",
+          "label": "Parent assessment and engagement",
+          "value": "parent-engagement"
+        },
+        {
+          "id": "board-insight",
+          "label": "Board/member insight",
+          "value": "board-insight"
+        },
+        {
+          "id": "donor-story",
+          "label": "Donor story mapping",
+          "value": "donor-story"
+        },
+        {
+          "id": "program-design",
+          "label": "Program design",
+          "value": "program-design"
+        },
+        {
+          "id": "community-insights",
+          "label": "Community insights",
+          "value": "community-insights"
+        }
+      ],
+      "variable": "multi_6",
+      "maxSelections": 10
+    },
+    "b7": {
+      "id": "b7",
+      "next": {
+        "if": [
+          {
+            "goto": "b8",
+            "when": {
+              "in": "no-blocks"
+            }
+          }
+        ],
+        "else": ""
+      },
+      "type": "multi-choice",
+      "content": "What would block adoption in your world? (Select all that apply)",
+      "options": [
+        {
+          "id": "language-tone",
+          "label": "Language/tone concerns",
+          "value": "language-tone"
+        },
+        {
+          "id": "procurement",
+          "label": "Procurement process",
+          "value": "procurement"
+        },
+        {
+          "id": "timing",
+          "label": "Timing challenges",
+          "value": "timing"
+        },
+        {
+          "id": "credibility",
+          "label": "Credibility/proof needed",
+          "value": "credibility"
+        },
+        {
+          "id": "cost",
+          "label": "Cost concerns",
+          "value": "cost"
+        },
+        {
+          "id": "other",
+          "label": "Other",
+          "value": "other"
+        },
+        {
+          "id": "no-blocks",
+          "label": "No blocks",
+          "value": "no-blocks"
+        }
+      ],
+      "variable": "multi_7",
+      "maxSelections": 6
+    },
+    "b8": {
+      "id": "b8",
+      "next": "b8a",
+      "type": "scale",
+      "content": "Our direction feels...",
+      "options": [
+        {
+          "id": "1",
+          "emoji": "😞",
+          "label": "Off-course",
+          "value": "1"
+        },
+        {
+          "id": "2",
+          "emoji": "😐",
+          "label": "2",
+          "value": "2"
+        },
+        {
+          "id": "3",
+          "emoji": "🙂",
+          "label": "On-course",
+          "value": "3"
+        },
+        {
+          "id": "4",
+          "emoji": "🤩",
+          "label": "4",
+          "value": "4"
+        },
+        {
+          "id": "5",
+          "emoji": "🚀",
+          "label": "Ahead of the game",
+          "value": "5"
+        }
+      ],
+      "variable": "rating_8"
+    },
+    "b9": {
+      "id": "b9",
+      "next": "b10",
+      "type": "multi-choice",
+      "content": "Which values should Nesolagus clearly enshrine? (Pick up to 3)",
+      "options": [
+        {
+          "id": "co-creation",
+          "label": "Co-creation & voice",
+          "value": "co-creation"
+        },
+        {
+          "id": "equity",
+          "label": "Equity & access",
+          "value": "equity"
+        },
+        {
+          "id": "speed-care",
+          "label": "Speed with care",
+          "value": "speed-care"
+        },
+        {
+          "id": "story-worthy",
+          "label": "Story-worthy outcomes",
+          "value": "story-worthy"
+        },
+        {
+          "id": "transparency",
+          "label": "Transparency & humility",
+          "value": "transparency"
+        },
+        {
+          "id": "practitioner-led",
+          "label": "Practitioner-led methods",
+          "value": "practitioner-led"
+        },
+        {
+          "id": "other",
+          "label": "Other",
+          "value": "other"
+        }
+      ],
+      "variable": "multi_9",
+      "maxSelections": 3
+    },
+    "b10": {
+      "id": "b10",
+      "next": "b11",
+      "type": "ranking",
+      "content": "Rank the most promising sources of leads for us right now (top 3)",
+      "options": [
+        {
+          "id": "peer-referrals",
+          "label": "Peer-to-peer advisor referrals",
+          "value": "peer-referrals"
+        },
+        {
+          "id": "conferences",
+          "label": "Conferences/panels",
+          "value": "conferences"
+        },
+        {
+          "id": "rfps",
+          "label": "City/local government RFPs",
+          "value": "rfps"
+        },
+        {
+          "id": "foundations",
+          "label": "Foundations/grant programs",
+          "value": "foundations"
+        },
+        {
+          "id": "university",
+          "label": "University labs/centers",
+          "value": "university"
+        },
+        {
+          "id": "corporate",
+          "label": "Corporate social impact",
+          "value": "corporate"
+        },
+        {
+          "id": "associations",
+          "label": "Industry associations (BID, arts, education)",
+          "value": "associations"
+        },
+        {
+          "id": "school-district",
+          "label": "School Districts",
+          "value": "school-district"
+        },
+        {
+          "id": "other",
+          "label": "Other",
+          "value": "other"
+        }
+      ],
+      "variable": "rank_10",
+      "maxSelections": 3
+    },
+    "b11": {
+      "id": "b11",
+      "next": "b12",
+      "type": "text-input",
+      "content": "With that in mind, name 2-3 specific actionable paths we should pursue.",
+      "variable": "text_11",
+      "placeholder": "Example: 'Hartford Foundation for Public Giving - they fund civic engagement work' or 'ICSC conference - lots of place managers in one room'"
+    },
+    "b12": {
+      "id": "b12",
+      "next": "b17",
+      "type": "text-input",
+      "content": "If we had a booth or panel this quarter, what's the one message or mini-demo that would convert?",
+      "variable": "text_12",
+      "placeholder": "Type your idea here..."
+    },
+    "b17": {
+      "id": "b17",
+      "next": "b18",
+      "type": "ranking",
+      "content": "What should we prioritize in the next 90 days? (Rank your top 3)",
+      "options": [
+        {
+          "id": "high-dollar",
+          "label": "Close 2-3 high dollar projects",
+          "value": "high-dollar"
+        },
+        {
+          "id": "case-studies",
+          "label": "Publish 1-2 case studies",
+          "value": "case-studies"
+        },
+        {
+          "id": "panel-booth",
+          "label": "Panel/booth presence",
+          "value": "panel-booth"
+        },
+        {
+          "id": "education",
+          "label": "Refine education offering",
+          "value": "education"
+        },
+        {
+          "id": "website-refresh",
+          "label": "Website/one-pager refresh",
+          "value": "website-refresh"
+        },
+        {
+          "id": "small-projects",
+          "label": "Close 10-15 small to medium dollar projects",
+          "value": "small-projects"
+        },
+        {
+          "id": "tool-license",
+          "label": "License tool suite",
+          "value": "tool-license"
+        }
+      ],
+      "variable": "rank_17",
+      "maxSelections": 3
+    },
+    "b18": {
+      "id": "b18",
+      "next": "b19",
+      "type": "text-input",
+      "content": "Anything else you want us to hear right now?",
+      "required": false,
+      "variable": "text_18",
+      "placeholder": "Type your thoughts here..."
+    },
+    "b19": {
+      "id": "b19",
+      "type": "final-message",
+      "content": "Thank you for your candor and insight! We'll share back a concise readout of the results. Your ideas are already helping us move faster together."
+    },
+    "b1a": {
+      "id": "b1a",
+      "next": "b3",
+      "type": "dynamic-message",
+      "content": "Education is such a method-sensitive space—we're excited to explore how the suite can support authentic student and stakeholder voice.",
+      "autoAdvance": true,
+      "autoAdvanceDelay": 3000
+    },
+    "b1b": {
+      "id": "b1b",
+      "next": "b3",
+      "type": "dynamic-message",
+      "content": "Urban place management feels like a near-turnkey fit for the tool—thank you for bringing that lens.",
+      "autoAdvance": true,
+      "autoAdvanceDelay": 3000
+    },
+    "b1c": {
+      "id": "b1c",
+      "next": "b3",
+      "type": "dynamic-message",
+      "content": "Non-profit and philanthropy work is where story and strategy meet—we're grateful for your perspective here.",
+      "autoAdvance": true,
+      "autoAdvanceDelay": 3000
+    },
+    "b1d": {
+      "id": "b1d",
+      "next": "b3",
+      "type": "dynamic-message",
+      "content": "Thank you for bringing your dual perspective to the table! We value the unique insights you bring from bridging both the classroom and the mission-driven world.",
+      "autoAdvance": true,
+      "autoAdvanceDelay": 2500
+    },
+    "b20": {
+      "id": "b20",
+      "next": "b5",
+      "type": "ranking",
+      "content": "What action(s) in order of priority are you most moved to take after the call? Please rank your top choices.",
+      "options": [
+        {
+          "id": "intro",
+          "label": "Make intro to potential client",
+          "value": "intro"
+        },
+        {
+          "id": "pilot",
+          "label": "Suggest a pilot or trial implementation",
+          "value": "pilot"
+        },
+        {
+          "id": "conversation",
+          "label": "Schedule a follow-up conversation",
+          "value": "conversation"
+        },
+        {
+          "id": "learn",
+          "label": "Continue learning more about the product",
+          "value": "learn"
+        },
+        {
+          "id": "else",
+          "label": "Something else",
+          "value": "else"
+        }
+      ],
+      "variable": "var_b20",
+      "maxSelections": 3
+    },
+    "b21": {
+      "id": "b21",
+      "next": "b6",
+      "type": "dynamic-message",
+      "content": "Thank you so much for your thoughtfulness!",
+      "variable": "var_b21",
+      "autoAdvance": true,
+      "autoAdvanceDelay": 2000
+    },
+    "b22": {
+      "id": "b22",
+      "next": "b8",
+      "type": "dynamic-message",
+      "content": "Thank you! Identifying roadblocks will be critical to our success.",
+      "variable": "var_b22",
+      "autoAdvance": true,
+      "autoAdvanceDelay": 2000
+    },
+    "b3a": {
+      "id": "b3a",
+      "next": "b20",
+      "type": "text-input",
+      "content": "I'm sorry to hear that. What didn't land—or what needs clarification?",
+      "variable": "text_3a",
+      "placeholder": "Type your thoughts here..."
+    },
+    "b3b": {
+      "id": "b3b",
+      "next": "b20",
+      "type": "text-input",
+      "content": "That's wonderful! What was the most useful moment or idea for you?",
+      "variable": "text_3b",
+      "placeholder": "Type your thoughts here..."
+    },
+    "b5a": {
+      "id": "b5a",
+      "next": "b21",
+      "type": "text-input",
+      "content": "What's still fuzzy? Help us clarify.",
+      "variable": "text_5a",
+      "placeholder": "Type your thoughts here..."
+    },
+    "b7a": {
+      "id": "b7a",
+      "next": "b22",
+      "type": "text-input",
+      "content": "Tell us more about those blockers ...",
+      "required": false,
+      "variable": "text_7a",
+      "placeholder": "Type your thoughts here..."
+    },
+    "b8a": {
+      "id": "b8a",
+      "next": "b9",
+      "type": "text-input",
+      "content": "In one line, what should we lean into or drop?",
+      "variable": "text_8a",
+      "placeholder": "Type your thoughts here..."
+    },
+    "end": {
+      "type": "end"
+    }
+  },
+  "survey": {
+    "id": "nesolagus-advisory-pulse-20251029",
+    "name": "Nesolagus Advisory Board Pulse",
+    "metadata": {
+      "version": "1.0.0",
+      "generatedAt": "2025-01-15T10:00:00Z",
+      "generatedBy": "question-generator",
+      "estimatedMinutes": 8
+    },
+    "description": "Post-inaugural call pulse capturing advisor sentiment on the call, tool fit, direction, lead sources, and board program design"
+  }
+}

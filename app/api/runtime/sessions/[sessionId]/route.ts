@@ -1,0 +1,24 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { runtimeEngine } from '@/lib/runtime-engine-instance';
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { sessionId: string } }
+) {
+  try {
+    const state = runtimeEngine.getSessionState(params.sessionId);
+
+    return NextResponse.json({
+      currentQuestion: state.currentQuestion,
+      progress: state.progress,
+      isComplete: state.isComplete,
+      responseId: state.responseId,
+    });
+  } catch (error) {
+    console.error('Error getting session state:', error);
+    return NextResponse.json(
+      { error: 'Session not found' },
+      { status: 404 }
+    );
+  }
+}

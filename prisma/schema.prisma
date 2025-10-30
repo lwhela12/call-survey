@@ -1,0 +1,42 @@
+// Simplified Prisma schema for survey runtime
+// Only includes models needed for survey delivery and responses
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Survey response (completed survey session)
+model SurveyResponse {
+  id             String         @id @default(cuid())
+  sessionId      String         @unique
+  deploymentId   String?        // References Deployment in main database
+  draftId        String?        // For preview mode
+  respondentName String?
+  metadata       Json?
+  completedAt    DateTime?
+  createdAt      DateTime       @default(now())
+  answers        SurveyAnswer[]
+
+  @@index([deploymentId])
+  @@index([draftId])
+  @@map("survey_responses")
+}
+
+// Individual answer to a survey question
+model SurveyAnswer {
+  id         String         @id @default(cuid())
+  responseId String
+  response   SurveyResponse @relation(fields: [responseId], references: [id], onDelete: Cascade)
+  blockId    String         // Question/block ID from survey config
+  answer     Json           // Flexible answer format
+  createdAt  DateTime       @default(now())
+
+  @@index([responseId])
+  @@index([blockId])
+  @@map("survey_answers")
+}

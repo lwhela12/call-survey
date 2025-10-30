@@ -1,0 +1,36 @@
+{
+  "name": "@nesolagus/dashboard-engine",
+  "version": "0.1.0",
+  "description": "Dashboard data binding and rendering engine for Nesolagus Studio and runtime",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json",
+    "dev": "tsc --watch --project tsconfig.build.json",
+    "clean": "rm -rf dist",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@nesolagus/config": "file:../config"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@vitest/coverage-v8": "^1.0.0",
+    "typescript": "^5.6.0",
+    "vitest": "^1.0.0"
+  },
+  "keywords": [
+    "dashboard",
+    "engine",
+    "data-binding",
+    "nesolagus"
+  ],
+  "author": "Nesolagus",
+  "license": "MIT"
+}

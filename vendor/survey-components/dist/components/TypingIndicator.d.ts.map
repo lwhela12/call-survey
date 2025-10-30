@@ -1,0 +1,1 @@
+{"version":3,"file":"TypingIndicator.d.ts","sourceRoot":"","sources":["../../src/components/TypingIndicator.tsx"],"names":[],"mappings":"AACA,OAAO,KAAK,MAAM,OAAO,CAAC;AAG1B,UAAU,oBAAoB;IAC5B,SAAS,CAAC,EAAE,MAAM,CAAC;CACpB;AAED,QAAA,MAAM,eAAe,EAAE,KAAK,CAAC,EAAE,CAAC,oBAAoB,CAanD,CAAC;AAgFF,eAAe,eAAe,CAAC"}

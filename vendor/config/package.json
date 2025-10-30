@@ -1,0 +1,23 @@
+{
+  "name": "@nesolagus/config",
+  "version": "0.1.0",
+  "description": "Shared survey and dashboard configuration contracts for Nesolagus Studio and Engine",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "echo \"Config package uses committed dist artifacts\"",
+    "lint": "echo \"No linting for generated artifacts\""
+  },
+  "keywords": [
+    "survey",
+    "dashboard",
+    "config",
+    "nesolagus"
+  ],
+  "author": "Nesolagus",
+  "license": "MIT"
+}

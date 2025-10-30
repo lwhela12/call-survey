@@ -1,0 +1,1 @@
+{"version":3,"file":"FinalMessage.d.ts","sourceRoot":"","sources":["../../../src/components/QuestionTypes/FinalMessage.tsx"],"names":[],"mappings":"AAAA,OAAO,KAAK,MAAM,OAAO,CAAC;AAE1B,OAAO,EAAE,QAAQ,EAAE,MAAM,oBAAoB,CAAC;AAE9C,QAAA,MAAM,YAAY,EAAE,KAAK,CAAC,EAAE,CAAC;IAAE,QAAQ,EAAE,QAAQ,CAAC;IAAC,QAAQ,EAAE,CAAC,MAAM,EAAE,OAAO,KAAK,IAAI,CAAA;CAAE,CAyBvF,CAAC;AAyCF,eAAe,YAAY,CAAC"}
