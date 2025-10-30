@@ -749,11 +749,8 @@ export class RuntimeEngine {
       // Update state with this answer
       this.updateState(tempSession, answer.blockId, answer.answer);
 
-      // Navigate to next block
-      const nextBlock = this.getNextQuestion(tempSession, answer.blockId, answer.answer);
-      if (nextBlock) {
-        tempSession.state.currentBlockId = nextBlock.id || answer.blockId;
-      }
+      // Navigate to next block (getNextQuestion updates currentBlockId internally)
+      this.getNextQuestion(tempSession, answer.blockId, answer.answer);
     }
 
     return tempSession;

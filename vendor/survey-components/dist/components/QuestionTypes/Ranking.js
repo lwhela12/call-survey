@@ -1,19 +1,29 @@
-import React, { useMemo, useState } from 'react';
-import styled from 'styled-components';
+import React, { useMemo, useState, useContext } from 'react';
+import styled, { keyframes } from 'styled-components';
 import { DndContext, PointerSensor, TouchSensor, KeyboardSensor, useSensor, useSensors, closestCenter } from '@dnd-kit/core';
+import { DragStateContext } from '../ChatInterface';
 import { SortableContext, useSortable, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+const float = keyframes`
+  0%, 100% {
+    transform: scale(1.05) rotate(2deg) translateY(0px);
+  }
+  50% {
+    transform: scale(1.05) rotate(2deg) translateY(-5px);
+  }
+`;
 const Ranking = ({ question, onAnswer, disabled }) => {
     const initialItems = useMemo(() => question.options ?? [], [question.options]);
     const [items, setItems] = useState(initialItems);
     const maxSelections = question.maxSelections || Math.min(3, items.length || 3);
+    const { setActiveDragItem } = useContext(DragStateContext);
     const sensors = useSensors(
         useSensor(PointerSensor, {
             activationConstraint: { distance: 10 }
         }),
         useSensor(TouchSensor, {
             activationConstraint: {
-                delay: 250,
+                delay: 150,
                 tolerance: 5
             }
         }),
@@ -21,6 +31,7 @@ const Ranking = ({ question, onAnswer, disabled }) => {
     );
     const handleDragEnd = (event) => {
         const { active, over } = event;
+        setActiveDragItem(null);
         if (!over || active.id === over.id)
             return;
         setItems(prev => {
@@ -35,6 +46,18 @@ const Ranking = ({ question, onAnswer, disabled }) => {
         // Haptic feedback for mobile devices
         if ('vibrate' in navigator) {
             navigator.vibrate(10);
+        }
+        // Find the dragged item and create floating preview
+        const activeItem = items.find(item => item.id === event.active.id);
+        if (activeItem) {
+            const activeIndex = items.findIndex(item => item.id === event.active.id);
+            setActiveDragItem(
+                React.createElement(FloatingOption, null,
+                    React.createElement(Handle, { "aria-hidden": true }, "\u2261"),
+                    React.createElement(Rank, { "$isTopChoice": activeIndex < maxSelections }, activeIndex + 1),
+                    React.createElement(Label, null, activeItem.label)
+                )
+            );
         }
     };
     const handleSubmit = () => {
@@ -59,7 +82,8 @@ const SortableOption = ({ id, label, index, isTopChoice }) => {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id });
     const style = {
         transform: CSS.Transform.toString(transform),
-        transition
+        transition,
+        opacity: isDragging ? 0.3 : 1
     };
     return (React.createElement(Option, { ref: setNodeRef, style: style, "$isTopChoice": isTopChoice, "$isDragging": isDragging, ...attributes, ...listeners },
         React.createElement(Handle, { "aria-hidden": true }, "\u2261"),
@@ -96,7 +120,10 @@ const Option = styled.div `
   -webkit-user-select: none;
   -webkit-touch-callout: none;
   touch-action: none;
-  transition: box-shadow 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  transition: box-shadow 0.2s ease, background 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
 `;
 const Handle = styled.span `
   font-size: 1.25rem;
@@ -149,6 +176,30 @@ const SubmitButton = styled.button `
 
   &:not(:disabled):hover {
     transform: translateY(-2px);
+  }
+`;
+const FloatingOption = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.md};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  background: ${({ theme }) => theme.colors.surface};
+  border: 2px solid ${({ theme }) => theme.colors.primary};
+  min-width: 300px;
+  cursor: grabbing;
+  box-shadow:
+    0 20px 40px rgba(0,0,0,0.15),
+    0 15px 25px rgba(0,0,0,0.1),
+    0 0 40px rgba(0,85,165,0.1);
+  animation: ${float} 2s ease-in-out infinite;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+
+  @media (max-width: 480px) {
+    min-width: 250px;
+    transform: scale(1.03) rotate(1deg);
   }
 `;
 export default Ranking;
