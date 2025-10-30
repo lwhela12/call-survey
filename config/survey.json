@@ -225,7 +225,7 @@
             }
           }
         ],
-        "else": ""
+        "else": "b7a"
       },
       "type": "multi-choice",
       "content": "What would block adoption in your world? (Select all that apply)",
