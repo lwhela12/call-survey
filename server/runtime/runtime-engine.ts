@@ -189,9 +189,24 @@ export class RuntimeEngine {
     };
   }
 
-  async submitAnswer(sessionId: string, questionId: string, answer: unknown): Promise<AnswerResponse> {
-    const session = this.sessions.get(sessionId);
+  async submitAnswer(sessionId: string, questionId: string, answer: unknown, config?: SurveyConfig): Promise<AnswerResponse> {
+    console.log('[SubmitAnswer] Called for sessionId:', sessionId, 'questionId:', questionId);
+    let session = this.sessions.get(sessionId);
+    console.log('[SubmitAnswer] Session in memory:', !!session);
+
+    // If not in memory, try to reconstruct from database (serverless fallback)
+    if (!session && config) {
+      console.log('[SubmitAnswer] Session not in memory, attempting reconstruction...');
+      const reconstructed = await this.reconstructSessionFromDatabase(sessionId, config);
+      if (reconstructed) {
+        session = reconstructed;
+        this.sessions.set(sessionId, session);
+        console.log('[SubmitAnswer] Session reconstructed and cached');
+      }
+    }
+
     if (!session) {
+      console.log('[SubmitAnswer] Session not found!');
       throw new Error("Invalid session ID");
     }
 
@@ -208,6 +223,8 @@ export class RuntimeEngine {
       });
     }
 
+    console.log('[SubmitAnswer] Answer processed, next block:', nextBlock?.type || 'null', 'progress:', progress);
+
     return {
       nextQuestion: nextBlock
         ? this.formatQuestionForClient(nextBlock, session.state.variables)
@@ -217,13 +234,24 @@ export class RuntimeEngine {
   }
 
   async completeSession(sessionId: string): Promise<void> {
+    console.log('[CompleteSession] Called for sessionId:', sessionId);
     const session = this.sessions.get(sessionId);
+
     if (!session) {
+      console.log('[CompleteSession] Session not in memory, querying database directly');
+      // In serverless, session might not be in memory
+      // Query database directly to get responseId
+      const dbResponse = await this.persistence.getResponseBySessionId(sessionId);
+      if (dbResponse && !dbResponse.completedAt) {
+        await this.persistence.completeResponse(dbResponse.id);
+        console.log('[CompleteSession] Marked response as complete in database');
+      }
       return;
     }
 
     if (session.type === "runtime") {
       await this.persistence.completeResponse(session.state.responseId);
+      console.log('[CompleteSession] Marked session as complete');
     }
 
     this.sessions.delete(sessionId);

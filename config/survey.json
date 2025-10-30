@@ -513,12 +513,20 @@
     },
     "b18": {
       "id": "b18",
-      "next": "b19",
+      "next": "b18-thank-you",
       "type": "text-input",
       "content": "Anything else you want us to hear right now?",
       "required": false,
       "variable": "text_18",
       "placeholder": "Type your thoughts here..."
+    },
+    "b18-thank-you": {
+      "id": "b18-thank-you",
+      "next": "b19",
+      "type": "dynamic-message",
+      "content": "That's it! Thank you so much for your feedback",
+      "autoAdvance": true,
+      "autoAdvanceDelay": 3000
     },
     "b19": {
       "id": "b19",
