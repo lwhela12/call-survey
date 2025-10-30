@@ -130,6 +130,9 @@ export default function SurveyPage() {
 
   // Handler for continuing from welcome-back screen
   const handleContinue = () => {
+    userChoiceRef.current = 'continue';
+    currentSessionIdRef.current = currentSessionId;
+    returningSessionDataRef.current = returningSessionData;
     setUserChoice('continue');
     setShowWelcomeBack(false);
     // ChatPreview will now render and resume with the existing session
