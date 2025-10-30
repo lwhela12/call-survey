@@ -5,6 +5,7 @@ import { DefaultTheme } from 'styled-components';
 import { PasswordGate } from './PasswordGate';
 import { generateAllChartData } from './lib/chart-data';
 import { KpiStatCard, BarChart } from '@nesolagus/dashboard-widgets';
+import { ClearResponsesButton } from './ClearResponsesButton';
 
 type SurveyAnswer = {
   id: string;
@@ -33,6 +34,11 @@ export function AdminClient({ responses, surveyConfig, theme }: AdminClientProps
     return generateAllChartData(surveyConfig, responses);
   }, [surveyConfig, responses]);
 
+  const handleClearComplete = () => {
+    // Reload the page to fetch fresh data
+    window.location.reload();
+  };
+
   return (
     <PasswordGate theme={theme}>
       <div
@@ -44,26 +50,33 @@ export function AdminClient({ responses, surveyConfig, theme }: AdminClientProps
       >
         <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
           {/* Header */}
-          <div style={{ marginBottom: '2rem' }}>
-            <h1
-              style={{
-                fontSize: '2rem',
-                fontWeight: 700,
-                color: theme.colors?.text?.primary || '#1F2937',
-                fontFamily: theme.fonts?.heading || 'inherit',
-                marginBottom: '0.5rem'
-              }}
-            >
-              Admin Dashboard
-            </h1>
-            <p
-              style={{
-                color: theme.colors?.text?.secondary || '#4A5568',
-                fontSize: '1rem'
-              }}
-            >
-              {surveyConfig.survey.name}
-            </p>
+          <div style={{ marginBottom: '2rem', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '1rem' }}>
+            <div>
+              <h1
+                style={{
+                  fontSize: '2rem',
+                  fontWeight: 700,
+                  color: theme.colors?.text?.primary || '#1F2937',
+                  fontFamily: theme.fonts?.heading || 'inherit',
+                  marginBottom: '0.5rem'
+                }}
+              >
+                Admin Dashboard
+              </h1>
+              <p
+                style={{
+                  color: theme.colors?.text?.secondary || '#4A5568',
+                  fontSize: '1rem'
+                }}
+              >
+                {surveyConfig.survey.name}
+              </p>
+            </div>
+            <ClearResponsesButton
+              theme={theme}
+              responseCount={responses.length}
+              onClearComplete={handleClearComplete}
+            />
           </div>
 
           {/* Total Responses KPI */}
