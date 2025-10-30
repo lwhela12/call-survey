@@ -1,9 +1,13 @@
 import React, { useMemo, useState, useContext } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { DndContext, PointerSensor, TouchSensor, KeyboardSensor, useSensor, useSensors, closestCenter } from '@dnd-kit/core';
-import { DragStateContext } from '../ChatInterface';
 import { SortableContext, useSortable, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+const DragStateContext = React.createContext({
+    activeId: null,
+    setActiveDragItem: () => {},
+    setDragHandlers: () => {},
+});
 const float = keyframes`
   0%, 100% {
     transform: scale(1.05) rotate(2deg) translateY(0px);
