@@ -1,5 +1,41 @@
 import { RuntimeEngine, RuntimePersistence } from '@/server/runtime/runtime-engine';
 import { prisma } from '@/lib/db';
+import type { Prisma } from '@prisma/client';
+
+const buildStateSnapshot = (state: {
+  currentBlockId: string;
+  completedBlocks: string[];
+  answers: Record<string, any>;
+  variables: Record<string, any>;
+}) =>
+  JSON.parse(
+    JSON.stringify({
+      currentBlockId: state.currentBlockId,
+      completedBlocks: state.completedBlocks,
+      answers: state.answers,
+      variables: state.variables,
+      updatedAt: new Date().toISOString(),
+    })
+  );
+
+const persistRuntimeState = async (tx: Prisma.TransactionClient, responseId: string, stateSnapshot: any) => {
+  const existing = await tx.surveyResponse.findUnique({
+    where: { id: responseId },
+    select: { metadata: true },
+  });
+
+  const existingMetadata =
+    existing?.metadata && typeof existing.metadata === 'object' ? { ...(existing.metadata as any) } : {};
+
+  existingMetadata.runtimeSessionState = stateSnapshot;
+
+  await tx.surveyResponse.update({
+    where: { id: responseId },
+    data: {
+      metadata: existingMetadata as any,
+    },
+  });
+};
 
 /**
  * Persistence implementation for RuntimeEngine using Prisma
@@ -20,13 +56,19 @@ const persistence: RuntimePersistence = {
   },
 
   async saveAnswer(params) {
-    // Map questionId to blockId for Prisma schema
-    await prisma.surveyAnswer.create({
-      data: {
-        responseId: params.responseId,
-        blockId: params.questionId, // questionId from RuntimeEngine → blockId in Prisma
-        answer: params.answer as any,
-      },
+    const stateSnapshot = buildStateSnapshot(params.state);
+    await prisma.$transaction(async (tx) => {
+      // Persist individual answer
+      await tx.surveyAnswer.create({
+        data: {
+          responseId: params.responseId,
+          blockId: params.questionId, // questionId from RuntimeEngine → blockId in Prisma
+          answer: params.answer as any,
+        },
+      });
+
+      // Merge runtime session state into metadata for fast reconstruction
+      await persistRuntimeState(tx, params.responseId, stateSnapshot);
     });
   },
 
@@ -34,6 +76,13 @@ const persistence: RuntimePersistence = {
     await prisma.surveyResponse.update({
       where: { id: responseId },
       data: { completedAt: new Date() },
+    });
+  },
+
+  async persistSessionState(params) {
+    const stateSnapshot = buildStateSnapshot(params.state);
+    await prisma.$transaction(async (tx) => {
+      await persistRuntimeState(tx, params.responseId, stateSnapshot);
     });
   },
 

@@ -16,6 +16,12 @@ export interface RuntimePersistence {
     responseId: string;
     questionId: string;
     answer: unknown;
+    state: {
+      currentBlockId: string;
+      completedBlocks: string[];
+      answers: Record<string, any>;
+      variables: Record<string, any>;
+    };
   }): Promise<void>;
   completeResponse(responseId: string): Promise<void>;
   getResponseBySessionId(sessionId: string): Promise<{
@@ -32,6 +38,15 @@ export interface RuntimePersistence {
       createdAt: Date;
     }>;
   } | null>;
+  persistSessionState(params: {
+    responseId: string;
+    state: {
+      currentBlockId: string;
+      completedBlocks: string[];
+      answers: Record<string, any>;
+      variables: Record<string, any>;
+    };
+  }): Promise<void>;
 }
 
 export interface SurveyConfig {
@@ -182,6 +197,16 @@ export class RuntimeEngine {
       },
     });
 
+    await this.persistence.persistSessionState({
+      responseId: responseRecord.id,
+      state: {
+        currentBlockId: state.currentBlockId,
+        completedBlocks: [...state.completedBlocks],
+        answers: { ...state.answers },
+        variables: { ...state.variables },
+      },
+    });
+
     return {
       sessionId,
       responseId: responseRecord.id,
@@ -220,6 +245,12 @@ export class RuntimeEngine {
         responseId: session.state.responseId,
         questionId,
         answer,
+        state: {
+          currentBlockId: session.state.currentBlockId,
+          completedBlocks: [...session.state.completedBlocks],
+          answers: { ...session.state.answers },
+          variables: { ...session.state.variables },
+        },
       });
     }
 
@@ -789,6 +820,59 @@ export class RuntimeEngine {
       answerBlockIds: dbResponse.answers.map(a => a.blockId),
     });
 
+    const metadataState =
+      dbResponse.metadata &&
+      typeof dbResponse.metadata === "object" &&
+      (dbResponse.metadata as any).runtimeSessionState
+        ? (dbResponse.metadata as any).runtimeSessionState
+        : null;
+
+    if (metadataState) {
+      console.log('[Reconstruct] Found stored runtime session state in metadata');
+
+      const metadataWithoutRuntime =
+        dbResponse.metadata && typeof dbResponse.metadata === "object"
+          ? Object.fromEntries(
+              Object.entries(dbResponse.metadata as Record<string, unknown>).filter(
+                ([key]) => key !== "runtimeSessionState"
+              )
+            )
+          : undefined;
+
+      const state: SurveyState = {
+        surveyId:
+          (config.survey?.id as string) ||
+          dbResponse.draftId ||
+          dbResponse.deploymentId ||
+          "runtime",
+        responseId: dbResponse.id,
+        currentBlockId: metadataState.currentBlockId || this.getFirstBlockId(config),
+        variables: metadataState.variables || {},
+        completedBlocks: Array.isArray(metadataState.completedBlocks)
+          ? metadataState.completedBlocks
+          : [],
+        answers: metadataState.answers || {},
+        metadata: metadataWithoutRuntime,
+      };
+
+      console.log('[Reconstruct] Restored state from metadata:', {
+        currentBlockId: state.currentBlockId,
+        completedBlocks: state.completedBlocks,
+        completedCount: state.completedBlocks.length,
+      });
+
+      return {
+        sessionId,
+        type: "runtime",
+        config,
+        state,
+        context: {
+          deploymentId: dbResponse.deploymentId || undefined,
+          draftId: dbResponse.draftId || undefined,
+        },
+      };
+    }
+
     // Start with initial state
     const state: SurveyState = {
       surveyId: (config.survey?.id as string) || dbResponse.draftId || dbResponse.deploymentId || "runtime",
@@ -841,6 +925,17 @@ export class RuntimeEngine {
       currentBlockId: tempSession.state.currentBlockId,
       completedBlocks: tempSession.state.completedBlocks,
       completedCount: tempSession.state.completedBlocks.length,
+    });
+
+    // Persist reconstructed state to metadata for faster future restores
+    await this.persistence.persistSessionState({
+      responseId: tempSession.state.responseId,
+      state: {
+        currentBlockId: tempSession.state.currentBlockId,
+        completedBlocks: [...tempSession.state.completedBlocks],
+        answers: { ...tempSession.state.answers },
+        variables: { ...tempSession.state.variables },
+      },
     });
 
     return tempSession;
