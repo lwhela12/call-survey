@@ -46,7 +46,7 @@ const ChatInterface = () => {
         },
     }), useSensor(TouchSensor, {
         activationConstraint: {
-            delay: 250,
+            delay: 150,
             tolerance: 5,
         },
     }), useSensor(KeyboardSensor, {

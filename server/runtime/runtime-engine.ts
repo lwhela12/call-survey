@@ -234,24 +234,41 @@ export class RuntimeEngine {
   }
 
   async getSessionState(sessionId: string, config?: SurveyConfig): Promise<SessionStateResponse> {
+    console.log('[GetSessionState] Called for sessionId:', sessionId);
     let session: RuntimeSession | undefined = this.sessions.get(sessionId);
+    console.log('[GetSessionState] Session in memory:', !!session);
 
     // If not in memory, try to reconstruct from database
     if (!session && config) {
+      console.log('[GetSessionState] Session not in memory, attempting reconstruction...');
       const reconstructed = await this.reconstructSessionFromDatabase(sessionId, config);
 
       if (reconstructed) {
         session = reconstructed;
         // Cache the reconstructed session in memory
         this.sessions.set(sessionId, session);
+        console.log('[GetSessionState] Session reconstructed and cached');
       }
     }
 
     if (!session) {
+      console.log('[GetSessionState] Session not found!');
       throw new Error("Session not found");
     }
 
+    console.log('[GetSessionState] Session state:', {
+      currentBlockId: session.state.currentBlockId,
+      completedBlocks: session.state.completedBlocks,
+      completedCount: session.state.completedBlocks.length,
+    });
+
     const currentBlock = session.config.blocks[session.state.currentBlockId];
+    console.log('[GetSessionState] Current block:', {
+      blockId: session.state.currentBlockId,
+      blockExists: !!currentBlock,
+      blockType: currentBlock?.type,
+    });
+
     const formatted = currentBlock
       ? this.formatQuestionForClient(currentBlock, session.state.variables)
       : null;
@@ -260,6 +277,13 @@ export class RuntimeEngine {
 
     // Build conversation history for returning users
     const conversationHistory = this.buildConversationHistory(session);
+
+    console.log('[GetSessionState] Returning state:', {
+      currentBlockId: session.state.currentBlockId,
+      progress,
+      historyLength: conversationHistory.length,
+      isComplete: !currentBlock,
+    });
 
     return {
       currentQuestion: formatted,
@@ -381,11 +405,13 @@ export class RuntimeEngine {
   }
 
   private getNextQuestion(session: RuntimeSession, currentQuestionId: string, answer: any): any | null {
+    console.log('[GetNextQuestion] Called for block:', currentQuestionId, 'with answer:', answer);
     const { config, state } = session;
     const blocks = config.blocks;
 
     const currentBlock = blocks[currentQuestionId];
     if (!currentBlock) {
+      console.log('[GetNextQuestion] Current block not found:', currentQuestionId);
       return null;
     }
 
@@ -404,6 +430,7 @@ export class RuntimeEngine {
       nextBlockId = onEmpty.next || currentBlock.next || null;
     } else if (typeof currentBlock.next === "string") {
       nextBlockId = currentBlock.next;
+      console.log('[GetNextQuestion] Found simple next:', nextBlockId);
     }
 
     if (!nextBlockId && Array.isArray(currentBlock.options)) {
@@ -422,6 +449,7 @@ export class RuntimeEngine {
 
       if (selectedOption && selectedOption.next) {
         nextBlockId = selectedOption.next;
+        console.log('[GetNextQuestion] Found option-based next:', nextBlockId);
       }
     }
 
@@ -429,8 +457,10 @@ export class RuntimeEngine {
       const blockVariable = currentBlock.variable as string | undefined;
       if (currentBlock.next && typeof currentBlock.next === "object") {
         nextBlockId = evaluateConditionalNext(currentBlock.next, state.variables, blockVariable) || null;
+        console.log('[GetNextQuestion] Evaluated conditional next (from next):', nextBlockId);
       } else if (currentBlock.conditionalNext) {
         nextBlockId = evaluateConditionalNext(currentBlock.conditionalNext, state.variables, blockVariable) || null;
+        console.log('[GetNextQuestion] Evaluated conditional next (from conditionalNext):', nextBlockId);
       }
     }
 
@@ -439,6 +469,7 @@ export class RuntimeEngine {
       if (nextBlock && nextBlock.showIf) {
         const shouldShow = evaluateCondition(nextBlock.showIf, state.variables);
         if (!shouldShow) {
+          console.log('[GetNextQuestion] Next block has showIf=false, skipping to its next');
           state.currentBlockId = nextBlockId;
           return this.getNextQuestion(session, nextBlockId, null);
         }
@@ -446,16 +477,20 @@ export class RuntimeEngine {
     }
 
     if (nextBlockId) {
+      console.log('[GetNextQuestion] Setting currentBlockId to:', nextBlockId);
       state.currentBlockId = nextBlockId;
       const nextBlock = blocks[nextBlockId];
 
       if (nextBlock && (nextBlock.type === "routing" || (nextBlock.type === "dynamic-message" && (!nextBlock.content || nextBlock.content === "") && nextBlock.conditionalNext))) {
+        console.log('[GetNextQuestion] Next block is routing/empty dynamic-message, recursing');
         return this.getNextQuestion(session, nextBlockId, "acknowledged");
       }
 
+      console.log('[GetNextQuestion] Returning next block:', nextBlockId);
       return nextBlock || null;
     }
 
+    console.log('[GetNextQuestion] No next block found, returning null');
     return null;
   }
 
@@ -713,11 +748,18 @@ export class RuntimeEngine {
     sessionId: string,
     config: SurveyConfig
   ): Promise<RuntimeSession | null> {
+    console.log('[Reconstruct] Starting reconstruction for sessionId:', sessionId);
     const dbResponse = await this.persistence.getResponseBySessionId(sessionId);
 
     if (!dbResponse || dbResponse.completedAt) {
+      console.log('[Reconstruct] Session not found or already completed');
       return null; // Session doesn't exist or is already complete
     }
+
+    console.log('[Reconstruct] DB response:', {
+      answersCount: dbResponse.answers.length,
+      answerBlockIds: dbResponse.answers.map(a => a.blockId),
+    });
 
     // Start with initial state
     const state: SurveyState = {
@@ -732,6 +774,11 @@ export class RuntimeEngine {
       metadata: dbResponse.metadata || undefined,
     };
 
+    console.log('[Reconstruct] Initial state:', {
+      currentBlockId: state.currentBlockId,
+      completedBlocks: state.completedBlocks,
+    });
+
     // Create temporary session for replaying answers
     const tempSession: RuntimeSession = {
       sessionId,
@@ -745,13 +792,28 @@ export class RuntimeEngine {
     };
 
     // Replay each answer to rebuild state
+    console.log('[Reconstruct] Starting replay loop...');
     for (const answer of dbResponse.answers) {
+      console.log('[Reconstruct] Replaying answer for block:', answer.blockId);
+      console.log('[Reconstruct] Before updateState - currentBlockId:', tempSession.state.currentBlockId);
+
       // Update state with this answer
       this.updateState(tempSession, answer.blockId, answer.answer);
+      console.log('[Reconstruct] After updateState - completedBlocks:', tempSession.state.completedBlocks);
 
       // Navigate to next block (getNextQuestion updates currentBlockId internally)
-      this.getNextQuestion(tempSession, answer.blockId, answer.answer);
+      const nextBlock = this.getNextQuestion(tempSession, answer.blockId, answer.answer);
+      console.log('[Reconstruct] After getNextQuestion:', {
+        nextBlockExists: !!nextBlock,
+        currentBlockId: tempSession.state.currentBlockId,
+      });
     }
+
+    console.log('[Reconstruct] Final reconstructed state:', {
+      currentBlockId: tempSession.state.currentBlockId,
+      completedBlocks: tempSession.state.completedBlocks,
+      completedCount: tempSession.state.completedBlocks.length,
+    });
 
     return tempSession;
   }

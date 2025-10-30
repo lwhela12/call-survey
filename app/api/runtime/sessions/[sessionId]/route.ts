@@ -7,8 +7,16 @@ export async function GET(
   { params }: { params: { sessionId: string } }
 ) {
   try {
+    console.log('[API /sessions/[sessionId]] GET request for sessionId:', params.sessionId);
     const config = getSurveyConfig();
     const state = await runtimeEngine.getSessionState(params.sessionId, config);
+
+    console.log('[API /sessions/[sessionId]] Returning state:', {
+      currentQuestionId: state.currentQuestion?.id,
+      progress: state.progress,
+      isComplete: state.isComplete,
+      conversationHistoryLength: state.conversationHistory?.length,
+    });
 
     return NextResponse.json({
       currentQuestion: state.currentQuestion,
@@ -18,7 +26,7 @@ export async function GET(
       conversationHistory: state.conversationHistory,
     });
   } catch (error) {
-    console.error('Error getting session state:', error);
+    console.error('[API /sessions/[sessionId]] Error getting session state:', error);
     return NextResponse.json(
       { error: 'Session not found' },
       { status: 404 }
