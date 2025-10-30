@@ -13,7 +13,7 @@ const persistence: RuntimePersistence = {
         deploymentId: params.deploymentId,
         draftId: params.draftId,
         respondentName: params.respondentName,
-        metadata: params.metadata || {},
+        metadata: (params.metadata || {}) as any,
       },
     });
     return { id: response.id };
@@ -25,7 +25,7 @@ const persistence: RuntimePersistence = {
       data: {
         responseId: params.responseId,
         blockId: params.questionId, // questionId from RuntimeEngine → blockId in Prisma
-        answer: params.answer,
+        answer: params.answer as any,
       },
     });
   },

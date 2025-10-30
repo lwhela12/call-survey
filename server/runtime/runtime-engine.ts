@@ -493,11 +493,11 @@ export class RuntimeEngine {
     const replaceVariables = (text: string): string => {
       let value = text;
 
-      value = value.replace(/\{\{#if (\w+)\}\}(.*?)\{\{else\}\}(.*?)\{\{\/if\}\}/gs, (_match, varName, ifText, elseText) => {
+      value = value.replace(/\{\{#if (\w+)\}\}([\s\S]*?)\{\{else\}\}([\s\S]*?)\{\{\/if\}\}/g, (_match, varName, ifText, elseText) => {
         return variables[varName] ? ifText : elseText;
       });
 
-      value = value.replace(/\{\{#if (\w+)\}\}(.*?)\{\{\/if\}\}/gs, (_match, varName, ifText) => {
+      value = value.replace(/\{\{#if (\w+)\}\}([\s\S]*?)\{\{\/if\}\}/g, (_match, varName, ifText) => {
         return variables[varName] ? ifText : "";
       });
 

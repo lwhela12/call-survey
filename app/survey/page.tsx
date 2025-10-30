@@ -38,17 +38,35 @@ const clearStoredSession = () => {
 };
 
 // Default theme when no theme is configured
-const DEFAULT_THEME: DefaultTheme = {
-  primaryColor: '#3b82f6',
-  secondaryColor: '#8b5cf6',
-  backgroundColor: '#ffffff',
-  textColor: '#1f2937',
+const DEFAULT_THEME = {
+  colors: {
+    primary: '#3b82f6',
+    secondary: '#8b5cf6',
+    background: '#ffffff',
+    surface: '#FFFFFF',
+    text: {
+      primary: '#1f2937',
+      secondary: '#4A5568',
+      light: '#718096',
+      inverse: '#FFFFFF',
+    },
+    border: '#E2E8F0',
+  },
+  fonts: {
+    body: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    heading: "'Poppins', 'Inter', sans-serif",
+  },
   borderRadius: {
     sm: '0.375rem',
     md: '0.5rem',
     lg: '1rem',
     xl: '1.5rem',
     full: '9999px',
+  },
+  shadows: {
+    sm: '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
+    md: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+    lg: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
   },
 };
 
