@@ -1,4 +1,4 @@
-# {{SURVEY_NAME}} - Survey Runtime
+# Nesolagus Pulse - Survey Runtime
 
 This is a deployable survey application exported from Nesolagus Studio.
 

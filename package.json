@@ -1,5 +1,5 @@
 {
-  "name": "{{BUNDLE_NAME}}",
+  "name": "nesolagus-pulse",
   "version": "0.1.0",
   "private": true,
   "scripts": {

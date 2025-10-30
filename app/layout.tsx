@@ -16,7 +16,7 @@ const sora = Sora({
 })
 
 export const metadata: Metadata = {
-  title: '{{SURVEY_NAME}}',
+  title: 'Nesolagus Pulse',
   description: 'Survey powered by Nesolagus',
 }
 
